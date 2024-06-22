@@ -24,7 +24,3 @@ def update_files_in_new_branch(files_data: list[FileData], branch_name: str):
 
         # Add the file to the git staging area
         subprocess.run(["git", "add", file_data.filepath], check=True)
-
-    # Commit the changes
-    commit_message = "Updated files in new branch"
-    subprocess.run(["git", "commit", "-m", commit_message], check=True)
