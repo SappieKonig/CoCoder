@@ -1,6 +1,6 @@
 import os
 from openai import OpenAI
-from preprocessing import collapse_directory
+from .preprocessing import collapse_directory
 import json
 from dataclasses import dataclass
 
@@ -58,5 +58,5 @@ def get_deepseek_answer(request: str, root_dir: str, file_extensions: list[str] 
 
 if __name__ == "__main__":
     request = "Please write a basic README for this project"
-    root_dir = "."
+    root_dir = ".."
     print(get_deepseek_answer(request, root_dir))

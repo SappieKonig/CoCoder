@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import click
-from api_utils import get_deepseek_answer
-from change_manager import update_files_in_new_branch
+from .api_utils import get_deepseek_answer
+from .change_manager import update_files_in_new_branch
 
 
 @click.group()

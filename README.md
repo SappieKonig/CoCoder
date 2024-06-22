@@ -1,2 +1,51 @@
 # CoCoder
-CLI tool for letting AI do the work
+
+CoCoder is a CLI tool designed to help manage changes in a project by leveraging AI to generate and apply modifications. This tool is particularly useful for developers looking to automate the process of making specific changes across their codebase.
+
+## Installation
+
+To install CoCoder, you need to have Python 3.x and Poetry installed on your system. Follow these steps:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/cocoder.git
+   cd cocoder
+   ```
+
+2. Install dependencies using Poetry:
+   ```bash
+   poetry install
+   ```
+
+## Usage
+
+CoCoder provides a simple CLI interface to interact with your project. Here are the basic commands:
+
+### Build Command
+
+To request changes and apply them to a new branch, use the `build` command:
+
+```bash
+poetry run cocoder build --request "Your change request here" --branch new-feature-branch --root_dir . --extensions .py
+```
+
+- `--request` or `-r`: The change you want the model to make.
+- `--branch` or `-b`: The branch to move the change to.
+- `--root_dir` or `-d`: The directory where the `.git` is located (default is the current directory).
+- `--extensions` or `-e`: File extensions to consider (default is `.py`).
+
+### Example
+
+```bash
+poetry run cocoder build --request "Add a function to calculate the sum of two numbers" --branch add-sum-function --root_dir . --extensions .py
+```
+
+This command will create a new branch named `add-sum-function`, apply the requested change, and commit the changes to the new branch.
+
+## Contributing
+
+Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) to get started.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

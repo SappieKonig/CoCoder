@@ -15,3 +15,6 @@ openai = "^1.35.3"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+coco = "cocoder.cli_tool:cli"
