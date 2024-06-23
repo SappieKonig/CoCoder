@@ -7,7 +7,7 @@ CoCoder is a CLI tool designed to help manage changes in a project by leveraging
 To install CoCoder, you need to have Python 3.x installed on your system. You can install CoCoder via pip:
 
 ```bash
-pip install cocoder
+pip install git+https://github.com/SappieKonig/CoCoder.git
 ```
 
 ## Usage
