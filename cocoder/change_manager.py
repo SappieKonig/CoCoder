@@ -9,7 +9,7 @@ class FileData:
     content: str
 
 
-def update_files_in_new_branch(files_data: list[FileData], branch_name: str):
+def update_files_in_new_branch(files_data: list[FileData], branch_name: str, commit: bool):
     # Create a new branch
     subprocess.run(["git", "checkout", "-b", branch_name], check=True)
 
@@ -24,3 +24,6 @@ def update_files_in_new_branch(files_data: list[FileData], branch_name: str):
 
         # Add the file to the git staging area
         subprocess.run(["git", "add", file_data.filepath], check=True)
+
+    if commit:
+        subprocess.run(["git", "commit", "-m", f"Automated changes for branch {branch_name}"], check=True)
