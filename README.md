@@ -30,14 +30,15 @@ coco build --request "Your change request here" --branch new-feature-branch
 
 ### Set Configuration Command
 
-To set default values for `root_dir` and `extensions`, use the `set_config` command:
+To set default values for `root_dir`, `extensions`, and `deepseek_api_key`, use the `set_config` command:
 
 ```bash
-coco set_config --root_dir . --extensions ".py .md"
+coco set_config --root_dir . --extensions ".py .md" --deepseek_api_key YOUR_API_KEY
 ```
 
 - `--root_dir` or `-d`: The directory where the `.git` is located (default is the current directory).
 - `--extensions` or `-e`: File extensions to consider (default is `.py`).
+- `--deepseek_api_key`: Your DeepSeek API key for authentication.
 
 ### Add Extensions Command
 

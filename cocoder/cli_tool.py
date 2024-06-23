@@ -47,6 +47,9 @@ def build(request, branch, root_dir, extensions, commit):
     root_dir = root_dir or config.get('root_dir', '.')
     extensions = extensions or config.get('extensions', DEFAULT_EXTENSIONS)
     commit = commit if commit is not None else config.get('commit', False)
+    api_key = config.get('deepseek_api_key', None)
+    if api_key is not None:
+        os.environ['DEEPSEEK_API_KEY'] = api_key
     changes = get_deepseek_answer(request, root_dir, extensions)
     if not branch:
         click.echo("Branch not provided. Applying changes to the current branch.")
@@ -57,7 +60,8 @@ def build(request, branch, root_dir, extensions, commit):
 @click.option('--root_dir', '-d', default=None, help='Directory where the .git is located')
 @click.option('--extensions', '-e', default=None, help='File extensions to consider', type=VariableArgs())
 @click.option('--commit', '-c', is_flag=True, default=None, help='Whether to commit changes immediately')
-def set_config(root_dir, extensions, commit):
+@click.option('--deepseek_api_key', default=None, help='DeepSeek API key for authentication')
+def set_config(root_dir, extensions, commit, deepseek_api_key):
     """Set configuration values"""
     config = load_config()
     if root_dir is not None:
@@ -66,6 +70,8 @@ def set_config(root_dir, extensions, commit):
         config['extensions'] = list(extensions)
     if commit is not None:
         config['commit'] = commit
+    if deepseek_api_key is not None:
+        config['deepseek_api_key'] = deepseek_api_key
     save_config(config)
     if 'root_dir' in config:
         click.echo(f"Set root_dir to {config['root_dir']}")
@@ -73,6 +79,8 @@ def set_config(root_dir, extensions, commit):
         click.echo(f"Set extensions to {config['extensions']}")
     if 'commit' in config:
         click.echo(f"Set commit to {config['commit']}")
+    if 'deepseek_api_key' in config:
+        click.echo("DeepSeek API key set")
 
 
 @cli.command()
