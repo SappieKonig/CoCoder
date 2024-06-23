@@ -37,7 +37,7 @@ def save_config(config):
 
 @cli.command()
 @click.option('--request', '-r', required=True, help='The change you want the model to make')
-@click.option('--branch', '-b', required=True, help='Branch to move the change to.')
+@click.option('--branch', '-b', default=None, help='Branch to move the change to.')
 @click.option('--root_dir', '-d', default=None, help='Directory where the .git is located')
 @click.option('--extensions', '-e', default=None, help='File extensions to consider', type=VariableArgs())
 @click.option('--commit', '-c', is_flag=True, default=None, help='Whether to commit changes immediately')
@@ -48,6 +48,8 @@ def build(request, branch, root_dir, extensions, commit):
     extensions = extensions or config.get('extensions', DEFAULT_EXTENSIONS)
     commit = commit if commit is not None else config.get('commit', False)
     changes = get_deepseek_answer(request, root_dir, extensions)
+    if not branch:
+        click.echo("Branch not provided. Applying changes to the current branch.")
     update_files_in_new_branch(changes, branch, commit)
 
 

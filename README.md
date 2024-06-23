@@ -23,7 +23,7 @@ coco build --request "Your change request here" --branch new-feature-branch
 ```
 
 - `--request` or `-r`: The change you want the model to make. This option is required.
-- `--branch` or `-b`: The branch to move the change to. This option is required.
+- `--branch` or `-b`: The branch to move the change to. If not provided, changes will be applied to the current branch, and the user will be alerted.
 - `--root_dir` or `-d`: The directory where the `.git` is located (default is the current directory).
 - `--extensions` or `-e`: File extensions to consider (default is `.py`, `.md`).
 - `--commit` or `-c`: Whether to commit changes immediately (default is `False`).

@@ -1,6 +1,7 @@
 import os
 import subprocess
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -9,9 +10,10 @@ class FileData:
     content: str
 
 
-def update_files_in_new_branch(files_data: list[FileData], branch_name: str, commit: bool):
-    # Create a new branch
-    subprocess.run(["git", "checkout", "-b", branch_name], check=True)
+def update_files_in_new_branch(files_data: list[FileData], branch_name: Optional[str], commit: bool):
+    if branch_name is not None:
+        # Create a new branch
+        subprocess.run(["git", "checkout", "-b", branch_name], check=True)
 
     # Iterate through each file data in the list
     for file_data in files_data:
