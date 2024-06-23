@@ -19,7 +19,7 @@ CoCoder provides a simple CLI interface to interact with your project. Here are 
 To request changes and apply them to a new branch, use the `build` command:
 
 ```bash
-coco build --request "Your change request here" --branch new-feature-branch --root_dir . --extensions .py
+coco build --request "Your change request here" --branch new-feature-branch
 ```
 
 - `--request` or `-r`: The change you want the model to make.
@@ -27,10 +27,21 @@ coco build --request "Your change request here" --branch new-feature-branch --ro
 - `--root_dir` or `-d`: The directory where the `.git` is located (default is the current directory).
 - `--extensions` or `-e`: File extensions to consider (default is `.py`).
 
+### Set Configuration Command
+
+To set default values for `root_dir` and `extensions`, use the `set_config` command:
+
+```bash
+coco set_config --root_dir . --extensions .py .md
+```
+
+- `--root_dir` or `-d`: The directory where the `.git` is located (default is the current directory).
+- `--extensions` or `-e`: File extensions to consider (default is `.py`).
+
 ### Example
 
 ```bash
-coco build --request "Add a function to calculate the sum of two numbers" --branch add-sum-function --root_dir . --extensions .py
+coco build --request "Add a function to calculate the sum of two numbers" --branch add-sum-function
 ```
 
 This command will create a new branch named `add-sum-function`, apply the requested change, and commit the changes to the new branch.
