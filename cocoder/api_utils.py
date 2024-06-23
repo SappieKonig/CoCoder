@@ -31,16 +31,18 @@ def get_deepseek_prompt(request: str, root_dir: str, file_extensions: list[str])
     return prompt
 
 
-def get_deepseek_answer(request: str, root_dir: str, file_extensions: list[str] = [".py"]) -> list[FileData]:
+def get_deepseek_answer(request: str, root_dir: str, file_extensions: list[str]) -> list[FileData]:
     client = OpenAI(api_key=os.environ['DEEPSEEK_API_KEY'], base_url="https://api.deepseek.com")
 
+    system_message = get_deepseek_system_message(file_extensions)
+    prompt = get_deepseek_prompt(request, root_dir, file_extensions)
     for _ in range(3):
         try:
             response = client.chat.completions.create(
                 model="deepseek-coder",
                 messages=[
-                    {"role": "system", "content": get_deepseek_system_message(file_extensions=file_extensions)},
-                    {"role": "user", "content": get_deepseek_prompt(request, root_dir, file_extensions)},
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": prompt},
                 ],
                 stream=False,
             )
@@ -54,9 +56,3 @@ def get_deepseek_answer(request: str, root_dir: str, file_extensions: list[str] 
 
     print("Failed to get valid output after 3 retries.")
     return []
-
-
-if __name__ == "__main__":
-    request = "Please write a basic README for this project"
-    root_dir = ".."
-    print(get_deepseek_answer(request, root_dir))

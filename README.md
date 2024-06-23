@@ -4,18 +4,11 @@ CoCoder is a CLI tool designed to help manage changes in a project by leveraging
 
 ## Installation
 
-To install CoCoder, you need to have Python 3.x and Poetry installed on your system. Follow these steps:
+To install CoCoder, you need to have Python 3.x installed on your system. You can install CoCoder via pip:
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-repo/cocoder.git
-   cd cocoder
-   ```
-
-2. Install dependencies using Poetry:
-   ```bash
-   poetry install
-   ```
+```bash
+pip install cocoder
+```
 
 ## Usage
 
@@ -26,7 +19,7 @@ CoCoder provides a simple CLI interface to interact with your project. Here are 
 To request changes and apply them to a new branch, use the `build` command:
 
 ```bash
-poetry run cocoder build --request "Your change request here" --branch new-feature-branch --root_dir . --extensions .py
+coco build --request "Your change request here" --branch new-feature-branch --root_dir . --extensions .py
 ```
 
 - `--request` or `-r`: The change you want the model to make.
@@ -37,7 +30,7 @@ poetry run cocoder build --request "Your change request here" --branch new-featu
 ### Example
 
 ```bash
-poetry run cocoder build --request "Add a function to calculate the sum of two numbers" --branch add-sum-function --root_dir . --extensions .py
+coco build --request "Add a function to calculate the sum of two numbers" --branch add-sum-function --root_dir . --extensions .py
 ```
 
 This command will create a new branch named `add-sum-function`, apply the requested change, and commit the changes to the new branch.

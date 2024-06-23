@@ -9,11 +9,14 @@ def cli():
     pass
 
 
+DEFAULT_EXTENSIONS = ['.py', '.md']
+
+
 @cli.command()
 @click.option('--request', '-r', help='The change you want the model to make')
 @click.option('--branch', '-b', help='Branch to move the change to.')
 @click.option('--root_dir', '-d', default='.', help='Directory where the .git is located')
-@click.option('--extensions', '-e', multiple=True, default=['.py'], help='File extensions to consider')
+@click.option('--extensions', '-e', multiple=True, default=DEFAULT_EXTENSIONS, help='File extensions to consider')
 def build(request, branch, root_dir, extensions):
     """Build the project"""
     changes = get_deepseek_answer(request, root_dir, extensions)
