@@ -29,10 +29,10 @@ def save_config(config):
 
 
 @cli.command()
-@click.option('--request', '-r', help='The change you want the model to make')
-@click.option('--branch', '-b', help='Branch to move the change to.')
+@click.option('--request', '-r', required=True, help='The change you want the model to make')
+@click.option('--branch', '-b', required=True, help='Branch to move the change to.')
 @click.option('--root_dir', '-d', default=None, help='Directory where the .git is located')
-@click.option('--extensions', '-e', multiple=True, default=None, help='File extensions to consider')
+@click.option('--extensions', '-e', nargs=-1, default=None, help='File extensions to consider')
 @click.option('--commit', '-c', is_flag=True, default=None, help='Whether to commit changes immediately')
 def build(request, branch, root_dir, extensions, commit):
     """Build the project"""
@@ -46,7 +46,7 @@ def build(request, branch, root_dir, extensions, commit):
 
 @cli.command()
 @click.option('--root_dir', '-d', default=None, help='Directory where the .git is located')
-@click.option('--extensions', '-e', multiple=True, default=None, help='File extensions to consider')
+@click.option('--extensions', '-e', nargs=-1, default=None, help='File extensions to consider')
 @click.option('--commit', '-c', is_flag=True, default=None, help='Whether to commit changes immediately')
 def set_config(root_dir, extensions, commit):
     """Set configuration values"""

@@ -22,10 +22,11 @@ To request changes and apply them to a new branch, use the `build` command:
 coco build --request "Your change request here" --branch new-feature-branch
 ```
 
-- `--request` or `-r`: The change you want the model to make.
-- `--branch` or `-b`: The branch to move the change to.
+- `--request` or `-r`: The change you want the model to make. This option is required.
+- `--branch` or `-b`: The branch to move the change to. This option is required.
 - `--root_dir` or `-d`: The directory where the `.git` is located (default is the current directory).
-- `--extensions` or `-e`: File extensions to consider (default is `.py`).
+- `--extensions` or `-e`: File extensions to consider (default is `.py`, `.md`).
+- `--commit` or `-c`: Whether to commit changes immediately (default is `False`).
 
 ### Set Configuration Command
 
@@ -44,7 +45,7 @@ coco set_config --root_dir . --extensions .py .md
 coco build --request "Add a function to calculate the sum of two numbers" --branch add-sum-function
 ```
 
-This command will create a new branch named `add-sum-function`, apply the requested change, and commit the changes to the new branch.
+This command will create a new branch named `add-sum-function`, apply the requested change, and commit the changes to the new branch if the `--commit` option is specified.
 
 ## Contributing
 
