@@ -39,6 +39,16 @@ coco set_config --root_dir . --extensions ".py .md"
 - `--root_dir` or `-d`: The directory where the `.git` is located (default is the current directory).
 - `--extensions` or `-e`: File extensions to consider (default is `.py`).
 
+### Add Extensions Command
+
+To add new file extensions to the existing list, use the `add_extensions` command:
+
+```bash
+coco add_extensions --extensions ".txt .js"
+```
+
+- `--extensions` or `-e`: File extensions to add to the list. This option is required.
+
 ### Example
 
 ```bash
