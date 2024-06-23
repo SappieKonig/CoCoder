@@ -21,7 +21,8 @@ def get_deepseek_system_message(file_extensions):
             f"are expanded. As output, you will return a JSON of the format "
             f"```json[{{filepath:<fp>, content: <content>}}]```, containing file names and content "
             f"for every file that must be changed or added for the requested change. You can create files whose "
-            f"extensions are not included in {file_extensions}.")
+            f"extensions are not included in {file_extensions}. Also, it might not always apply, but where it does, "
+            f"remember to update README's and docs as well.")
 
 
 def get_deepseek_prompt(request: str, root_dir: str, file_extensions: list[str]) -> str:
