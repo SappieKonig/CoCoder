@@ -13,7 +13,7 @@ def list_directory_structure(root_dir) -> str:
     return ret
 
 
-def list_files_and_contents(root_dir, file_extensions: list[str] = [".py"]) -> str:
+def list_files_and_contents(root_dir, file_extensions: list[str]) -> str:
     ret = ""
     for root, dirs, files in os.walk(root_dir):
         for file_name in files:
