@@ -33,7 +33,7 @@ coco build --request "Your change request here" --branch new-feature-branch
 To set default values for `root_dir` and `extensions`, use the `set_config` command:
 
 ```bash
-coco set_config --root_dir . --extensions .py .md
+coco set_config --root_dir . --extensions ".py .md"
 ```
 
 - `--root_dir` or `-d`: The directory where the `.git` is located (default is the current directory).
