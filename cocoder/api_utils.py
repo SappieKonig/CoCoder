@@ -36,23 +36,27 @@ def get_deepseek_answer(request: str, root_dir: str, file_extensions: list[str])
 
     system_message = get_deepseek_system_message(file_extensions)
     prompt = get_deepseek_prompt(request, root_dir, file_extensions)
+    temp = 1.0
     for _ in range(3):
+        response = client.chat.completions.create(
+            model="deepseek-coder",
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": prompt},
+            ],
+            stream=False,
+            temperature=temp,
+        )
+        text = response.choices[0].message.content
         try:
-            response = client.chat.completions.create(
-                model="deepseek-coder",
-                messages=[
-                    {"role": "system", "content": system_message},
-                    {"role": "user", "content": prompt},
-                ],
-                stream=False,
-            )
-            text = response.choices[0].message.content
-
-            text = text.strip().removeprefix("```json").removesuffix("```").strip()
+            text = text.strip().removeprefix("```json").removesuffix("```").strip().replace(r"\'", r"'")
 
             return [FileData(**item) for item in json.loads(text)]
         except Exception as e:
+            print(text)
             print(f"Error parsing LLM content: {e}. Retrying...")
+            temp += 0.01  # small change, hopefully to break determinism
+            break
 
     print("Failed to get valid output after 3 retries.")
     return []
