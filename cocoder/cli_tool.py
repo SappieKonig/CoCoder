@@ -43,17 +43,20 @@ def build(request, branch, root_dir, extensions):
 
 
 @cli.command()
-@click.option('--root_dir', '-d', default='.', help='Directory where the .git is located')
-@click.option('--extensions', '-e', multiple=True, default=DEFAULT_EXTENSIONS, help='File extensions to consider')
+@click.option('--root_dir', '-d', default=None, help='Directory where the .git is located')
+@click.option('--extensions', '-e', multiple=True, default=None, help='File extensions to consider')
 def set_config(root_dir, extensions):
     """Set configuration values"""
-    config = {
-        'root_dir': root_dir,
-        'extensions': list(extensions)
-    }
+    config = load_config()
+    if root_dir is not None:
+        config['root_dir'] = root_dir
+    if extensions is not None:
+        config['extensions'] = list(extensions)
     save_config(config)
-    click.echo(f"Set root_dir to {root_dir}")
-    click.echo(f"Set extensions to {extensions}")
+    if 'root_dir' in config:
+        click.echo(f"Set root_dir to {config['root_dir']}")
+    if 'extensions' in config:
+        click.echo(f"Set extensions to {config['extensions']}")
 
 
 if __name__ == "__main__":

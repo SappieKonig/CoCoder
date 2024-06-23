@@ -31,11 +31,19 @@ def get_deepseek_prompt(request: str, root_dir: str, file_extensions: list[str])
     return prompt
 
 
+def text_preprocessing(txt):
+    """Preprocess text given to the LLM"""
+    # replace " with \", so the json that the LLM returns works well
+    return txt.replace(r'"', r'\"')
+
+
 def get_deepseek_answer(request: str, root_dir: str, file_extensions: list[str]) -> list[FileData]:
     client = OpenAI(api_key=os.environ['DEEPSEEK_API_KEY'], base_url="https://api.deepseek.com")
 
     system_message = get_deepseek_system_message(file_extensions)
+    system_message = text_preprocessing(system_message)
     prompt = get_deepseek_prompt(request, root_dir, file_extensions)
+    prompt = text_preprocessing(prompt)
     temp = 1.0
     for _ in range(3):
         response = client.chat.completions.create(
