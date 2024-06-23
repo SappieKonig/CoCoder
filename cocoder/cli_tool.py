@@ -73,5 +73,18 @@ def set_config(root_dir, extensions, commit):
         click.echo(f"Set commit to {config['commit']}")
 
 
+@cli.command()
+@click.option('--extensions', '-e', required=True, help='File extensions to add to the list', type=VariableArgs())
+def add_extensions(extensions):
+    """Add extensions to the existing list"""
+    config = load_config()
+    current_extensions = config.get('extensions', DEFAULT_EXTENSIONS)
+    new_extensions = list(set(current_extensions + list(extensions)))
+    config['extensions'] = new_extensions
+    save_config(config)
+    click.echo(f"Added extensions: {extensions}")
+    click.echo(f"Updated extensions list: {new_extensions}")
+
+
 if __name__ == "__main__":
     cli()
