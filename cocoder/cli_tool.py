@@ -3,6 +3,7 @@ import click
 from .api_utils import get_deepseek_answer
 from .change_manager import update_files_in_new_branch
 import os
+import json
 
 
 @click.group()
@@ -11,6 +12,20 @@ def cli():
 
 
 DEFAULT_EXTENSIONS = ['.py', '.md']
+CONFIG_PATH = os.path.expanduser('~/.cocoder/config.json')
+
+
+def load_config():
+    if os.path.exists(CONFIG_PATH):
+        with open(CONFIG_PATH, 'r') as f:
+            return json.load(f)
+    return {}
+
+
+def save_config(config):
+    os.makedirs(os.path.dirname(CONFIG_PATH), exist_ok=True)
+    with open(CONFIG_PATH, 'w') as f:
+        json.dump(config, f, indent=4)
 
 
 @cli.command()
@@ -20,8 +35,9 @@ DEFAULT_EXTENSIONS = ['.py', '.md']
 @click.option('--extensions', '-e', multiple=True, default=None, help='File extensions to consider')
 def build(request, branch, root_dir, extensions):
     """Build the project"""
-    root_dir = root_dir or os.getenv('COCODER_ROOT_DIR', '.')
-    extensions = extensions or os.getenv('COCODER_EXTENSIONS', DEFAULT_EXTENSIONS)
+    config = load_config()
+    root_dir = root_dir or config.get('root_dir', '.')
+    extensions = extensions or config.get('extensions', DEFAULT_EXTENSIONS)
     changes = get_deepseek_answer(request, root_dir, extensions)
     update_files_in_new_branch(changes, branch)
 
@@ -31,8 +47,11 @@ def build(request, branch, root_dir, extensions):
 @click.option('--extensions', '-e', multiple=True, default=DEFAULT_EXTENSIONS, help='File extensions to consider')
 def set_config(root_dir, extensions):
     """Set configuration values"""
-    os.environ['COCODER_ROOT_DIR'] = root_dir
-    os.environ['COCODER_EXTENSIONS'] = ','.join(extensions)
+    config = {
+        'root_dir': root_dir,
+        'extensions': list(extensions)
+    }
+    save_config(config)
     click.echo(f"Set root_dir to {root_dir}")
     click.echo(f"Set extensions to {extensions}")
 
