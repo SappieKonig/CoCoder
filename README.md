@@ -58,6 +58,17 @@ coco build --request "Add a function to calculate the sum of two numbers" --bran
 
 This command will create a new branch named `add-sum-function`, apply the requested change, and commit the changes to the new branch if the `--commit` option is specified.
 
+## Example Input Received by CoCoder
+
+Here's a small example of what input CoCoder might receive after preprocessing a repository with only a `main.py` containing `print(1+2)`:
+
+```json
+{
+  "file_path": "./main.py",
+  "content": "print(1+2)"
+}
+```
+
 ## Contributing
 
 Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) to get started.
