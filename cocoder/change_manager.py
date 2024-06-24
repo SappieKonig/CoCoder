@@ -17,15 +17,20 @@ def update_files_in_new_branch(files_data: list[FileData], branch_name: Optional
 
     # Iterate through each file data in the list
     for file_data in files_data:
-        # Ensure the directory exists
-        os.makedirs(os.path.dirname(file_data.filepath), exist_ok=True)
+        try:
+            # Ensure the directory exists
+            os.makedirs(os.path.dirname(file_data.filepath), exist_ok=True)
 
-        # Write the content to the file
-        with open(file_data.filepath, 'w') as file:
-            file.write(file_data.content)
+            # Write the content to the file
+            with open(file_data.filepath, 'w') as file:
+                file.write(file_data.content)
 
-        # Add the file to the git staging area
-        subprocess.run(["git", "add", file_data.filepath], check=True)
+            # Add the file to the git staging area
+            subprocess.run(["git", "add", file_data.filepath], check=True)
+        except Exception as e:
+            print(file_data)
+            print(f"Exception: {e}")
+            raise e
 
     if commit:
         subprocess.run(["git", "commit", "-m", f"Automated changes for branch {branch_name}"], check=True)
