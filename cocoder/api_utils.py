@@ -1,5 +1,5 @@
 import os
-from openai import OpenAI
+import openai
 from .preprocessing import collapse_directory
 import json
 from dataclasses import dataclass
@@ -39,7 +39,7 @@ def text_preprocessing(txt):
 
 
 def get_deepseek_answer(request: str, root_dir: str, file_extensions: list[str]) -> list[FileData]:
-    client = OpenAI(api_key=os.environ['DEEPSEEK_API_KEY'], base_url="https://api.deepseek.com")
+    client = openai.OpenAI(api_key=os.environ['DEEPSEEK_API_KEY'], base_url="https://api.deepseek.com")
 
     system_message = get_deepseek_system_message(file_extensions)
     system_message = text_preprocessing(system_message)
@@ -47,16 +47,23 @@ def get_deepseek_answer(request: str, root_dir: str, file_extensions: list[str])
     prompt = text_preprocessing(prompt)
     temp = 1.0
     for _ in range(3):
-        response = client.chat.completions.create(
-            model="deepseek-coder",
-            messages=[
-                {"role": "system", "content": system_message},
-                {"role": "user", "content": prompt},
-            ],
-            stream=False,
-            temperature=temp,
-        )
-        text = response.choices[0].message.content
+        try:
+            response = client.chat.completions.create(
+                model="deepseek-coder",
+                messages=[
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": prompt},
+                ],
+                stream=False,
+                temperature=temp,
+            )
+            text = response.choices[0].message.content
+        except openai.APIStatusError as e:
+            print(system_message, prompt)
+            print(f"#chars in system message: {len(system_message)}")
+            print(f"#chars in prompt: {len(prompt)}")
+            raise e
+
         try:
             text = text.strip().removeprefix("```json").removesuffix("```").strip().replace(r"\'", r"'")
 
