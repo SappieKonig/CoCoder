@@ -53,6 +53,8 @@ def build(request, branch, root_dir, extensions, commit):
     changes = get_deepseek_answer(request, root_dir, extensions)
     if not branch:
         click.echo("Branch not provided. Applying changes to the current branch.")
+    else:
+        branch = branch.replace(' ', '_')  # Replace spaces with underscores
     update_files_in_new_branch(changes, branch, commit)
 
 
