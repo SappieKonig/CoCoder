@@ -19,7 +19,9 @@ def update_files_in_new_branch(files_data: list[FileData], branch_name: Optional
     for file_data in files_data:
         try:
             # Ensure the directory exists
-            os.makedirs(os.path.dirname(file_data.filepath), exist_ok=True)
+            directory = os.path.dirname(file_data.filepath)
+            if directory != '':
+                os.makedirs(directory, exist_ok=True)
 
             # Write the content to the file
             with open(file_data.filepath, 'w') as file:
