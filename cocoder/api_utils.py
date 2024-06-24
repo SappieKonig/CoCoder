@@ -16,7 +16,7 @@ DEEPSEEK_SYSTEM_MESSAGE = "You are an assistant that helps to write pull request
 
 
 def get_deepseek_system_message(file_extensions):
-    return (f"You are an assistant that helps to write pull requests. As input you get JSON's containing "
+    return (f"You are coco (short for CoCoder), an assistant that helps to write pull requests. As input you get JSON's containing "
             f"the location of files and their corresponding content. Only files with the extension {file_extensions} "
             f"are expanded. As output, you will return a JSON of the format "
             f"```json[{{filepath:<fp>, content: <content>}}]```, containing file names and content "

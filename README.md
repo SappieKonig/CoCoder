@@ -62,6 +62,14 @@ This command will create a new branch named `add-sum-function`, apply the reques
 
 Here's a small example of what input CoCoder might receive after preprocessing a repository with only a `main.py` containing `print(1+2)`:
 
+### Directory Structure:
+```
+.gitignore
+LICENSE
+package/main.py
+```
+
+### Files and Contents:
 ```json
 {
   "file_path": "./main.py",
