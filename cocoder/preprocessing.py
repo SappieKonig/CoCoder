@@ -1,32 +1,31 @@
 import os
+import subprocess
 
 
 def list_directory_structure(root_dir) -> str:
     ret = ""
-    for root, dirs, files in os.walk(root_dir):
-        level = root.replace(root_dir, '').count(os.sep)
-        indent = ' ' * 4 * (level)
-        ret += f"{indent}{os.path.basename(root)}/\n"
-        sub_indent = ' ' * 4 * (level + 1)
-        for f in files:
-            ret += f"{sub_indent}{f}\n"
+    result = subprocess.run(['git', 'ls-files'], cwd=root_dir, capture_output=True, text=True)
+    files = result.stdout.splitlines()
+    for file in files:
+        ret += f"{file}\n"
     return ret
 
 
 def list_files_and_contents(root_dir, file_extensions: list[str]) -> str:
     ret = ""
-    for root, dirs, files in os.walk(root_dir):
-        for file_name in files:
-            if not any(file_name.endswith(extension) for extension in file_extensions):
-                continue
-            file_path = os.path.join(root, file_name)
-            try:
-                with open(file_path, 'r', encoding='utf-8') as file:
-                    content = file.read()
-                    ret += repr({"file_path": file_path, "content": content})
-            except Exception as e:
-                ret += f"Could not read file {file_path}: {e}"
-            ret += "\n"
+    result = subprocess.run(['git', 'ls-files'], cwd=root_dir, capture_output=True, text=True)
+    files = result.stdout.splitlines()
+    for file_name in files:
+        if not any(file_name.endswith(extension) for extension in file_extensions):
+            continue
+        file_path = os.path.join(root_dir, file_name)
+        try:
+            with open(file_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+                ret += repr({"file_path": file_path, "content": content})
+        except Exception as e:
+            ret += f"Could not read file {file_path}: {e}"
+        ret += "\n"
     return ret
 
 
