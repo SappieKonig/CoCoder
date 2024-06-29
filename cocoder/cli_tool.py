@@ -18,7 +18,6 @@ def cli():
     pass
 
 
-DEFAULT_EXTENSIONS = ['.py', '.md']
 CONFIG_PATH = os.path.expanduser('~/.cocoder/config.json')
 
 
@@ -45,12 +44,11 @@ def build(request, branch, root_dir, extensions, commit):
     """Build the project"""
     config = load_config()
     root_dir = root_dir or config.get('root_dir', '.')
-    extensions = extensions or config.get('extensions', DEFAULT_EXTENSIONS)
     commit = commit if commit is not None else config.get('commit', False)
     api_key = config.get('deepseek_api_key', None)
     if api_key is not None:
         os.environ['DEEPSEEK_API_KEY'] = api_key
-    changes = get_deepseek_answer(request, root_dir, extensions)
+    changes = get_deepseek_answer(request, root_dir)
     if not branch:
         click.echo("Branch not provided. Applying changes to the current branch.")
     else:
